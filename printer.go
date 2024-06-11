@@ -267,7 +267,7 @@ func (p *printer) printTime() {
 
 func (p *printer) printSlice() {
 	if p.value.Kind() == reflect.Slice && p.value.IsNil() {
-		p.printf("%s(%s)", p.typeString(), p.nil())
+		p.printf("nil")
 		return
 	}
 	if p.value.Len() == 0 {
