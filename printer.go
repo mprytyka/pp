@@ -351,12 +351,8 @@ func (p *printer) printPtr() {
 	if p.value.Elem().IsValid() {
 		val := p.value.Elem().Type()
 		switch val.String() {
-		case "float64":
-			p.printf("floatPointer(%s)", p.format(p.value.Elem()))
-		case "int":
-			p.printf("intPointer(%s)", p.format(p.value.Elem()))
-		case "bool":
-			p.printf("boolPointer(%s)", p.format(p.value.Elem()))
+		case "float64", "int", "bool":
+			p.printf("toPointer(%s)", p.format(p.value.Elem()))
 		default:
 			p.printf("&%s", p.format(p.value.Elem()))
 		}
