@@ -271,7 +271,7 @@ func (p *printer) printSlice() {
 		return
 	}
 	if p.value.Len() == 0 {
-		p.printf("%s{}", p.typeString())
+		p.printf("nil")
 		return
 	}
 
@@ -349,9 +349,19 @@ func (p *printer) printPtr() {
 	}
 
 	if p.value.Elem().IsValid() {
-		p.printf("&%s", p.format(p.value.Elem()))
+		val := p.value.Elem().Type()
+		switch val.String() {
+		case "float64":
+			p.printf("floatPointer(%s)", p.format(p.value.Elem()))
+		case "int":
+			p.printf("intPointer(%s)", p.format(p.value.Elem()))
+		case "bool":
+			p.printf("boolPointer(%s)", p.format(p.value.Elem()))
+		default:
+			p.printf("&%s", p.format(p.value.Elem()))
+		}
 	} else {
-		p.printf("(%s)(%s)", p.typeString(), p.nil())
+		p.printf("nil")
 	}
 }
 
